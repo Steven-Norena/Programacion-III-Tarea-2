@@ -51,4 +51,38 @@ int main() {
     auto sq_sum = core_numeric::transform_reduce(v_int, [](int x) { return x * x; });
     std::cout << "Transform Reduce (sq sum): " << sq_sum << std::endl;
     return 0;
+
+    //---- ERRORES DE COMPILACIÓN -----
+
+    // --- CASO 1: Concept 'Divisible' ---
+    // El tipo std::string es Iterable y Addable (se puede concatenar usando el operador +),
+    // pero no es Divisible, ya que no se puede dividir una palabra entre un número.
+    /*
+    std::vector<std::string> palabras = {"Hola", "Mundo"};
+    auto err1 = core_numeric::mean(palabras);
+    */
+
+    // --- CASO 2: Concept 'Iterable' ---
+    // Intentar pasar un tipo de dato simple a una función que espera un contenedor.
+    /*
+    int numero_simple = 100;
+    auto err3 = core_numeric::sum(numero_simple);
+    */
+
+
+    // --- CASO 3: Concept 'Addable' en Variadics ---
+    // Si creamos una estructura vacía que no tiene sobrecarga de operador '+',
+    // las funciones variádicas deben rechazarla.
+    /*
+    struct ObjetoInutil {};
+    ObjetoInutil obj1, obj2;
+    auto err4 = core_numeric::sum_variadic(obj1, obj2);
+    */
+
+
+    // --- CASO 4: Mezcla de tipos incompatibles en Variadics ---
+    // Intentar usar variance_variadic con tipos de datos que no se pueden operar entre sí
+    /*
+    auto err5 = core_numeric::variance_variadic("texto", 1.5, 10);
+    */
 }
