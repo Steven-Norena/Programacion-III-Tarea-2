@@ -8,6 +8,7 @@
 #include <concepts>
 #include <iterator>
 #include <vector>
+#include <iostream>
 
 template<typename C>
 concept Iterable = requires(C c)
@@ -25,7 +26,7 @@ concept Addable = requires(T a, T b)
 template<typename T>
 concept Divisible = requires(T a, std::size_t n)
 {
-    {a / n} -> std::same_as<T>;
+    {a / n} -> std::convertible_to<T>;
 };
 
 template<typename T>
